@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10sp">
+
+    <ImageView
+        android:id="@+id/studentAvatar"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.477"
+        tools:srcCompat="@drawable/default_avatar"
+        />
+
+    <TextView
+        android:id="@+id/studentName"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/studentClass"
+        app:layout_constraintStart_toEndOf="@+id/studentAvatar" />
+
+    <TextView
+        android:id="@+id/studentClass"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:text="20KTPM1"
+        app:layout_constraintBottom_toBottomOf="@+id/studentAvatar"
+        app:layout_constraintStart_toEndOf="@+id/studentAvatar"
+        app:layout_constraintTop_toTopOf="@+id/studentAvatar" />
+
+    <TextView
+        android:id="@+id/studentDob"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="DD/MM/YYYY"
+        app:layout_constraintStart_toEndOf="@+id/studentAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/studentClass" />
+</androidx.constraintlayout.widget.ConstraintLayout>
