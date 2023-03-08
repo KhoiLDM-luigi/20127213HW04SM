@@ -49,13 +49,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var a = Student("Nguyen Van a", "22/11/2002", "20KTPM1", "other")
+        var b = Student("Le Thi B", "22/11/2002", "20KTPM1", "other")
+        var c = Student("Nguyen Duong C", "22/11/2002", "20KTPM1", "other")
 
-        val studentName = arrayListOf("Nguyen Van A", "Le Thi B", "Nguyen Duong C")
-        val studentClass = arrayListOf("20KTPM1", "20KTPM2", "20KTPM3")
-        val studentDob = arrayListOf("20/11/2002", "20/21/2001", "20/22/2002")
-        val studentAvatar = arrayListOf(R.drawable.default_avatar, R.drawable.default_avatar, R.drawable.default_avatar)
+//        val studentName = arrayListOf("Nguyen Van A", "Le Thi B", "Nguyen Duong C")
+//        val studentClass = arrayListOf("20KTPM1", "20KTPM2", "20KTPM3")
+//        val studentDob = arrayListOf("20/11/2002", "20/21/2001", "20/22/2002")
+//        val studentAvatar = arrayListOf(R.drawable.default_avatar, R.drawable.default_avatar, R.drawable.default_avatar)
+        val studentListData = arrayListOf(a, b, c)
+        val idData = arrayListOf("001", "002", "003")
 
-        val customAdapter = StudentListAdapter(this, studentName, studentClass, studentDob, studentAvatar)
+
+        val customAdapter = StudentListAdapter(this, studentListData, idData)
 
         studentList = findViewById(R.id.studentlist)
         studentList?.adapter = customAdapter

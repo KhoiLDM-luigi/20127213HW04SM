@@ -9,11 +9,9 @@ import android.widget.TextView
 
 class StudentListAdapter (
     private val context: Activity,
-    private val studentName: List<String>,
-    private val studentClass: List<String>,
-    private val studentDobAndGender : List<String>,
-    private val studentAvatar: List<Int>
-) : ArrayAdapter<String>(context, R.layout.student_list_item, studentName) {
+    private val studentList: List<Student>,
+    private val id: List<String>
+) : ArrayAdapter<String>(context, R.layout.student_list_item, id) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
@@ -22,10 +20,11 @@ class StudentListAdapter (
         val imageView: ImageView = rowView.findViewById(R.id.studentAvatar) as ImageView
         val classText = rowView.findViewById(R.id.studentClass) as TextView
         val dobText = rowView.findViewById(R.id.studentDob) as TextView
-        nameText.text = studentName[position]
-        imageView.setImageResource(studentAvatar[position])
-        classText.text = studentClass[position]
-        dobText.text = studentDobAndGender[position]
+        nameText.text = studentList[position].fullname
+        imageView.setImageResource(R.drawable.default_avatar)
+        classText.text = studentList[position].curClass
+        dobText.text = studentList[position].dob + " - " + studentList[position].gender
+        println("<<<${nameText.text} ${classText.text} ${dobText.text}>>>")
         return rowView
     }
 }
