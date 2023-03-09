@@ -12,5 +12,6 @@
     <bitmap
         android:src="@drawable/text"
         android:gravity="center"/>
+
 </item>
 </layer-list>
