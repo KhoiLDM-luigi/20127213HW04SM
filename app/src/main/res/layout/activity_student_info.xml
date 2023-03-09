@@ -22,6 +22,7 @@
         android:id="@+id/textView2"
         android:layout_width="341dp"
         android:layout_height="60dp"
+        android:layout_marginTop="5dp"
         android:text="Student Imformation"
         android:textAlignment="center"
         android:textSize="34sp"
@@ -117,21 +118,25 @@
     <Button
         android:id="@+id/saveBtn"
         android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Button"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#00bfff"
+        android:text="SAVE"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/delete"
+        android:id="@+id/deleteBtn"
         android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_height="50dp"
+        android:backgroundTint="#ff3300"
+        android:text="DELETE"
+        app:layout_constraintBottom_toTopOf="@+id/saveBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveBtn" />
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -141,7 +146,6 @@
         android:layout_marginTop="28dp"
         android:contentDescription="select class"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/studentInfoDob" />
 
