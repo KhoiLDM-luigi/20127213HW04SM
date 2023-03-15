@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">20127213-HW04-SM</string>
+    <string-array name="available_class">
+        <item>20KTPM1</item>
+        <item>20KTPM2</item>
+        <item>20KTPM3</item>
+    </string-array>
 </resources>

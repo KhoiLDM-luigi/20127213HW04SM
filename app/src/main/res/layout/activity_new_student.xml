@@ -70,11 +70,11 @@
         android:layout_marginStart="32dp"
         android:text="Class"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/studentInfoClass"
         app:layout_constraintStart_toStartOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/studentInfoGender"
         android:layout_width="341dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner">
+        app:layout_constraintTop_toBottomOf="@+id/studentInfoClass">
 
         <RadioButton
             android:id="@+id/male"
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="Gender"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintBottom_toTopOf="@+id/studentInfoGender"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -127,7 +127,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/studentInfoClass"
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="341dp"
         android:layout_height="50dp"
