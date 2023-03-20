@@ -3,57 +3,103 @@ package com.example.a20127213_hw04_sm
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.GridLayout
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButtonToggleGroup
 import java.io.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.mongodb.kbson.ObjectId
 
 
 class MainActivity : AppCompatActivity() {
-    var manager = StudentList.getInstance()
+    var manager = StudentListRealm.getInstance()
 
-    var studentList : ListView? = null
     var addStudentButton: Button? = null
+
+    var studentListRv : RecyclerView? = null
+
+    var changeLayoutBtn: Button? = null
+
+    var searchBox: AutoCompleteTextView? = null
 
     override fun onResume(){
         super.onResume()
-        var studentListData = manager.getList()
-        var idData = arrayListOf<String>()
-        for ((i, value) in studentListData.withIndex()) idData.add(i.toString())
-        val customAdapter = StudentListAdapter(this, studentListData, idData)
-        studentList?.adapter = customAdapter
+        searchBox?.setText("")
+//        var studentListData = manager.getList()
+        var studentListData = manager.getStudentList()
+        var studentName = arrayListOf<String>()
+        for (i in studentListData) {
+            studentName.add(i.fullname)
+        }
+
+        val customAdapter = StudentListRecyclerAdapterRealm(studentListData, studentListOnClickListener?:null)
+        studentListRv?.adapter = customAdapter
+
+        var autoCompleteAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, studentName)
+        searchBox?.setAdapter(autoCompleteAdapter)
     }
+
+    var studentListOnClickListener: StudentListRecyclerAdapterRealm.OnClickListener? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-//        var a = Student("Nguyen Van a", "22/11/2002", "20KTPM1", "other")
-//        var b = Student("Le Thi B", "22/11/2002", "20KTPM1", "other")
-//        var c = Student("Nguyen Duong C", "22/11/2002", "20KTPM1", "other")
-//
-////        val studentName = arrayListOf("Nguyen Van A", "Le Thi B", "Nguyen Duong C")
-////        val studentClass = arrayListOf("20KTPM1", "20KTPM2", "20KTPM3")
-////        val studentDob = arrayListOf("20/11/2002", "20/21/2001", "20/22/2002")
-////        val studentAvatar = arrayListOf(R.drawable.default_avatar, R.drawable.default_avatar, R.drawable.default_avatar)
-//        val studentListData = arrayListOf(a, b, c)
-//        val idData = arrayListOf("001", "002", "003")
+        setContentView(R.layout.activity_main_rv)
 
-        manager.setFilename("student_list.txt")
-        manager.readFile(this)
-        var studentListData = manager.getList()
-
-        var idData = arrayListOf<String>()
-        for ((i, value) in studentListData.withIndex()) {
-            idData.add(i.toString())
+        studentListOnClickListener = object: StudentListRecyclerAdapterRealm.OnClickListener{
+            override fun onClick(position: Int, model: StudentRealm) {
+                var intent = Intent(this@MainActivity, StudentInfo::class.java)
+//                intent.putExtra("info", Json.encodeToString(model))
+//                intent.putExtra("position", position)
+                intent.putExtra("id", model._id.toString())
+                startActivity(intent)
+            }
         }
-        val customAdapter = StudentListAdapter(this, studentListData, idData)
 
-        studentList = findViewById(R.id.studentlist)
-        studentList?.adapter = customAdapter
+//        manager.setFilename("student_list.txt")
+//        manager.readFile(this)
+//        var studentListData = manager.getList()
+        var studentListData = manager.getStudentList()
+
+        var studentName = arrayListOf<String>()
+        for (i in studentListData) {
+            studentName.add(i.fullname)
+        }
+
+        val customAdapter = StudentListRecyclerAdapterRealm(studentListData, studentListOnClickListener?:null)
+
+        studentListRv = findViewById(R.id.studentListRv)
+        studentListRv?.adapter = customAdapter
+        studentListRv?.layoutManager = LinearLayoutManager(this)
+
+        var autoCompleteAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, studentName)
+        searchBox = findViewById(R.id.searchBox)
+        searchBox?.setAdapter(autoCompleteAdapter)
+
+        searchBox?.addTextChangedListener( object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                var studentListData = manager.getListFilteredByName(searchBox?.text.toString())
+                val customAdapter = StudentListRecyclerAdapterRealm(studentListData, studentListOnClickListener?:null)
+                studentListRv?.adapter = customAdapter
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        })
 
         addStudentButton = findViewById(R.id.newStudent)
         addStudentButton?.setOnClickListener{
@@ -61,18 +107,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        studentList?.setOnItemClickListener{ parent, view, position, id ->
-            var curStudent = manager.getStudentAt(position)
-            var intent = Intent(this, StudentInfo::class.java)
-            intent.putExtra("info", Json.encodeToString(curStudent))
-            intent.putExtra("position", position)
-            startActivity(intent)
+        changeLayoutBtn = findViewById(R.id.changeLayoutBtn)
+        changeLayoutBtn?.setOnClickListener{
+            if (studentListRv?.layoutManager is GridLayoutManager)
+                studentListRv?.layoutManager = LinearLayoutManager(this)
+            else
+                studentListRv?.layoutManager = GridLayoutManager(this,2, RecyclerView.VERTICAL, false)
         }
 
     }
 
-    override fun onStop() {
-        super.onStop()
-        manager.saveFile(this)
-    }
 }

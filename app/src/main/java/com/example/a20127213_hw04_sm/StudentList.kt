@@ -2,11 +2,10 @@ package com.example.a20127213_hw04_sm
 
 import android.content.Context
 import android.widget.Toast
-import java.io.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.text.FieldPosition
+import java.io.*
 
 
 class StudentList private constructor(){
@@ -29,6 +28,10 @@ class StudentList private constructor(){
     fun getFilename() = filename
     fun setFilename(filename: String) {this.filename = filename}
     fun getList() = list
+
+    fun getListFilteredByName(data: String): List<Student>{
+        return list.filter { student -> student.fullname.contains(data, ignoreCase = true)  }
+    }
 
     fun addStudent(student: Student){
         list.add(student)

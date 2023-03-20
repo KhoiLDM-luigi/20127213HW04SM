@@ -6,13 +6,13 @@ import android.widget.*
 
 class NewStudent : AppCompatActivity() {
 
-    var manager = StudentList.getInstance()
-    var studentName: EditText? = null
-    var studentDob: EditText? = null
-    var studentClass: Spinner? = null
-    var studentGender: RadioGroup? = null
+        var manager = StudentListRealm.getInstance()
+        var studentName: EditText? = null
+        var studentDob: EditText? = null
+        var studentClass: Spinner? = null
+        var studentGender: RadioGroup? = null
 
-    var saveBtn: Button? = null
+        var saveBtn: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class NewStudent : AppCompatActivity() {
                 R.id.male -> sgender = "male"
             }
 
-            val nStudent = Student(sname, sdob, sclass, sgender)
+            val nStudent = StudentRealm(sname, sdob, sclass, sgender)
             manager.addStudent(nStudent)
             finish()
         }

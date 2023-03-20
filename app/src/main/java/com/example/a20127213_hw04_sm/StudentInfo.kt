@@ -8,7 +8,7 @@ import kotlinx.serialization.decodeFromString
 
 class StudentInfo : AppCompatActivity() {
 
-    var manager = StudentList.getInstance()
+    var manager = StudentListRealm.getInstance()
     var studentName: EditText? = null
     var studentDob: EditText? = null
     var studentClass: Spinner? = null
@@ -17,7 +17,7 @@ class StudentInfo : AppCompatActivity() {
     var saveBtn: Button? = null
     var deleteBtn: Button? = null
 
-    var student = Student("","","","")
+    var student = StudentRealm()
     var position = 0
 
 
@@ -25,10 +25,10 @@ class StudentInfo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_info)
 
-        var jsonStr = intent.getStringExtra("info").toString()
-        student = Json.decodeFromString<Student>(jsonStr)
+        var uuid = intent.getStringExtra("id").toString()
+        student = manager.getStudent(uuid)
         position = intent.getIntExtra("position", 0)
-        println("<<<<<$position>>>>>>")
+
         studentName = findViewById(R.id.studentInfoName)
         studentName?.setText(student.fullname)
 
@@ -63,23 +63,25 @@ class StudentInfo : AppCompatActivity() {
 
         saveBtn = findViewById(R.id.saveBtn)
         saveBtn?.setOnClickListener{
-            student.fullname = studentName?.text.toString()
-            student.dob = studentDob?.text.toString()
-            student.curClass= studentClass?.selectedItem.toString()
+            var fullname = studentName?.text.toString()
+            var dob = studentDob?.text.toString()
+            var curClass= studentClass?.selectedItem.toString()
             val genderChecked = studentGender?.checkedRadioButtonId
+            var gender = ""
             when(genderChecked){
-                R.id.female -> student.gender = "female"
-                R.id.male -> student.gender = "male"
-                R.id.other -> student.gender = "other"
+                R.id.female -> gender = "female"
+                R.id.male -> gender = "male"
+                R.id.other -> gender = "other"
             }
-            manager.setStundentAt(student, position)
+//            manager.setStundentAt(student, position)
+            manager.updateStudent(student._id, fullname, dob, curClass, gender)
             intent.data = null
             finish()
         }
 
         deleteBtn = findViewById(R.id.deleteBtn)
         deleteBtn?.setOnClickListener{
-            manager.removeStudentAt(position)
+            manager.removeStudent(student)
             intent.data = null
             finish()
         }
